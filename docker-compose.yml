@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  database:
+    image: mysql:8.0.31
+    container_name: dbs
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d
+      - ./mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test
+      MYSQL_USER: tqr
+      MYSQL_PASSWORD: root
+      MYSQL_TIMEZONE: "UTC"  
+      MYSQL_INITDB_SKIP_TZINFO: "1" 
+    ports:
+      - 3309:3306
+    restart: always
+    networks:
+      - shared_network 
+
+volumes:
+  mysql_data:
+
+networks:
+  shared_network:
+    external: true
